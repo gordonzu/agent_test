@@ -1,13 +1,15 @@
-project(${CMAKE_PROJECT_NAME}_lib)
+set(BINARY ${CMAKE_PROJECT_NAME})
 
-set(HEADER_FILES
-    environment/xyenv/xy_environment.h
-)
-set(SOURCE_FILES
-    environment/xyenv.xy_environment.cpp
-)
+file(GLOB_RECURSE SOURCES LIST_DIRECTORIES true *.h *.cpp)
 
-if (EXISTS ${SOURCE_FILES})
+set(SOURCES ${SOURCES})
+
+add_executable(${BINARY}_run ${SOURCES})
+
+add_library(${BINARY}_lib STATIC ${SOURCES})
+
+
+#[[if (EXISTS ${SOURCE_FILES})
     # The library contains header and source files.
     add_library(${CMAKE_PROJECT_NAME}_lib STATIC
         ${SOURCE_FILES}
@@ -16,4 +18,4 @@ if (EXISTS ${SOURCE_FILES})
 else()
     # The library only contains header files.
     add_library(${CMAKE_PROJECT_NAME}_lib INTERFACE)
-endif()
+endif()]]

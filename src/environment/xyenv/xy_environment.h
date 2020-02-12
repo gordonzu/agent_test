@@ -8,9 +8,11 @@
 
 class XYEnvironment {
 public:
-    XYEnvironment() = delete;
-    XYEnvironment(int w, int h);
-    virtual ~XYEnvironment() = default;
+    XYEnvironment();
+    ~XYEnvironment();
+    //XYEnvironment() = delete;
+    //XYEnvironment(int w, int h);
+    //virtual ~XYEnvironment() = default;
 
 private:
     unsigned width;

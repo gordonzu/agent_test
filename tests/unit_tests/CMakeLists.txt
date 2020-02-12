@@ -1,8 +1,13 @@
 include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
 
-add_executable(unit_tests_run
-    test_xyenvironment.cpp
-)
+set(BINARY unit_tests_run)
 
-target_link_libraries(unit_tests_run gtest gtest_main)
-target_link_libraries(unit_tests_run ${CMAKE_PROJECT_NAME}_lib)
+file(GLOB_RECURSE TEST_SOURCES LIST_DIRECTORIES false *.h *.cpp)
+
+add_executable(${BINARY} ${TEST_SOURCES})
+
+add_test(NAME ${BINARY} COMMAND ${BINARY})
+
+target_link_libraries(${BINARY} PUBLIC ${CMAKE_PROJECT_NAME}_lib gtest gtest_main pthread)
+
+

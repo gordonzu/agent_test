@@ -1,9 +1,10 @@
 #!/bin/bash
 
-rm -rf build/MyProject_run &&
+clear
+rm -rf build/src/agent_test_run &&
 rm -rf build/tests/unit_tests/unit_tests_run 
 cd build && 
-cmake .. && 
-make && 
+cmake .. -DCMAKE_BUILD_TYPE=Debug -G "Unix Makefiles" && 
+make all && 
 ./tests/unit_tests/unit_tests_run
 

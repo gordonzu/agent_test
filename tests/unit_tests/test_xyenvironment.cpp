@@ -10,9 +10,12 @@ class TestXYEnvironment: public Test {
 public:
     TestXYEnvironment() {}
 
-    
+    //XYEnvironment env{10, 12};
+    //XYEnvironment env;
 };
 
 TEST_F(TestXYEnvironment, Equals) {
-  EXPECT_EQ(1, 1);
+    //ASSERT_EQ(env.get_map_size(), size_t(120));
+    ASSERT_EQ(1, 1); 
 }
+

@@ -7,9 +7,12 @@
 #include <algorithm>
 #include "xy_environment.h"
 
-XYEnvironment::XYEnvironment(int w, int h) : width(w), height(h) {
+XYEnvironment::XYEnvironment() {}
+XYEnvironment::~XYEnvironment() {}
+
+/*XYEnvironment::XYEnvironment(int w, int h) : width(w), height(h) {
     assert (width > 0);
     assert (height > 0);
-}
+}*/
 
 
