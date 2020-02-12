@@ -1,8 +1,10 @@
 project(${CMAKE_PROJECT_NAME}_lib)
 
 set(HEADER_FILES
+    environment/xyenv/xy_environment.h
 )
 set(SOURCE_FILES
+    environment/xyenv.xy_environment.cpp
 )
 
 if (EXISTS ${SOURCE_FILES})

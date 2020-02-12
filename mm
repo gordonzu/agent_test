@@ -1,4 +1,9 @@
 #!/bin/bash
 
-rm -rf build && mkdir build && cd build && cmake .. && make 
+rm -rf build/MyProject_run &&
+rm -rf build/tests/unit_tests/unit_tests_run 
+cd build && 
+cmake .. && 
+make && 
+./tests/unit_tests/unit_tests_run
 

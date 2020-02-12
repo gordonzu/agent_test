@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.9)
-project(MyProject)
+project(agent_test)
 
 set(CMAKE_CXX_STANDARD 17)
 
@@ -14,7 +14,7 @@ add_subdirectory(tests)
 target_link_libraries(${CMAKE_PROJECT_NAME}_run ${CMAKE_PROJECT_NAME}_lib)
 
 # Doxygen Build
-option(BUILD_DOC "Build Documentation" ON)
+#[[option(BUILD_DOC "Build Documentation" OFF)
 
 find_package(Doxygen)
 if(DOXYGEN_FOUND)
@@ -35,4 +35,4 @@ if(DOXYGEN_FOUND)
             VERBATIM)
 else(DOXYGEN_FOUND)
     message("Doxygen needs to be installed to generate the documentation.")
-endif(DOXYGEN_FOUND)
+endif(DOXYGEN_FOUND)]]
