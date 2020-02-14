@@ -12,6 +12,9 @@
 
 using Map = std::vector<std::pair<XYLocation, std::vector<Agent>>>;
 
+// TODO: How many functions can be private? How many free functions? How many const?
+// How many parameters can be const?
+
 class XYEnvironment {
 public:
     XYEnvironment() = delete;
@@ -24,6 +27,7 @@ public:
     void add_agent(const Agent& obj, const XYLocation& xy);
     void check_object(const Agent& obj);
     std::vector<Agent>& check_vector(const XYLocation& xy);
+    void check_dimensions(const XYLocation& xy);
 
 private:
     Map agent_map;

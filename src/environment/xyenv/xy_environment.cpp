@@ -70,8 +70,18 @@ std::vector<Agent>& XYEnvironment::check_vector(const XYLocation& xy) {
     if (has_xy(xy) != get_map().end()) {
         return itv->second;
     }
+    check_dimensions(xy);
     agent_map.emplace_back(xy, std::vector<Agent>());
     return has_xy(xy)->second;
+}
+
+// Ge the last xy_location in the map. Compare if x > xx || if y > yy. For the either one or 
+// both that's true, increase the entries in the map to make up the difference. If not, fall through
+void XYEnvironment::check_dimensions(const XYLocation& xy) {
+    // is passed in xx > map_last_row x?
+    //      if yes, then is passed in yy > map_last_column y?
+    //          if yes, then  
+
 }
 
 
