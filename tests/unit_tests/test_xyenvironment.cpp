@@ -27,5 +27,27 @@ TEST_F(TestXYEnvironment, test_new_insertions) {
     //TODO: test new insertion rows and columns beyond the existing matrix
     //TODO: test duplicate agents
     //TODO: test multiple agents at one location 
+
+    Agent ag;
+    XYLocation xy{8,9};
+    ASSERT_EQ(env.inner_vector_size(xy), size_t(0));
+    
+    env.add_agent(ag, xy);
+    ASSERT_EQ(env.inner_vector_size(xy), size_t(1));
 }
 
+TEST_F(TestXYEnvironment, test_outofbounds_insertions) {
+    Agent ag;
+    XYLocation xy{12,15};
+    ASSERT_EQ(env.inner_vector_size(xy), size_t(0));
+ 
+    env.add_agent(ag, xy);
+    ASSERT_EQ(env.inner_vector_size(xy), size_t(1));
+}
+
+
+
+
+
+
+ 
