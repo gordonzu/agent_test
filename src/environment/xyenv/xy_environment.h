@@ -14,7 +14,7 @@ using Map = std::vector<std::pair<XYLocation, std::vector<Agent>>>;
 
 // TODO: 
 // How many functions can be private? How many free functions? How many const? How many static?
-// How many parameters can be const? How many for loops and be STL loops?
+// How many parameters can be const? How many for loops can be STL loops?
 // Non-base classes are to be made final
 // List all out parameters from functions... make wrapper objects containing a pointer to the value
 //
@@ -36,6 +36,9 @@ public:
     void print_map();
     unsigned get_width();
     unsigned get_height();
+    void grow_matrix(const XYLocation& xy);
+    void add_rows(unsigned new_width);
+    void add_columns(unsigned new_height);
 
 private:
     Map agent_map;
