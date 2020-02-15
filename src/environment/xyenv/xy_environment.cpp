@@ -33,7 +33,7 @@ void XYEnvironment::binary_sort_map() {
               });  
 }
 
-size_t XYEnvironment::map_size() {
+size_t XYEnvironment::matrix_size() {
     return agent_map.size();
 }
 

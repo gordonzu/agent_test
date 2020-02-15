@@ -24,7 +24,7 @@ public:
     XYEnvironment() = delete;
     XYEnvironment(int w, int h);
     virtual ~XYEnvironment() = default;
-    size_t map_size();
+    size_t matrix_size();
     Map::iterator has_xy(const XYLocation& loc);
     Map& get_map();
     size_t inner_vector_size(const XYLocation& xy);

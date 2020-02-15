@@ -21,7 +21,7 @@ public:
     //TODO: test multiple agents at one location
     
 TEST_F(TestXYEnvironment, test_matrix_size) {
-    ASSERT_EQ(env.map_size(), size_t(120));   
+    ASSERT_EQ(env.matrix_size(), size_t(120));   
 }
 
 TEST_F(TestXYEnvironment, test_negative_matrix) {
@@ -50,11 +50,11 @@ TEST_F(TestXYEnvironment, test_add_both_dimensions_outofbounds) {
     Agent a;
     XYLocation xy{12,14};
     ASSERT_EQ(env.inner_vector_size(xy), size_t(0));
-    ASSERT_EQ(env.map_size(), size_t(120));   
+    ASSERT_EQ(env.matrix_size(), size_t(120));   
  
     env.add_agent(a, xy);
     ASSERT_EQ(env.inner_vector_size(xy), size_t(1));
-    ASSERT_EQ(env.map_size(), size_t(168));   
+    ASSERT_EQ(env.matrix_size(), size_t(168));   
 }
 
 TEST_F(TestXYEnvironment, test_add_one_dimension_outofbounds) {
@@ -62,7 +62,7 @@ TEST_F(TestXYEnvironment, test_add_one_dimension_outofbounds) {
     XYLocation xy{12,9};
 
     ASSERT_EQ(env.inner_vector_size(xy), size_t(0));
-    ASSERT_EQ(env.map_size(), size_t(120));   
+    ASSERT_EQ(env.matrix_size(), size_t(120));   
 
 }
 
