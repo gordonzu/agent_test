@@ -14,7 +14,6 @@ public:
     Agent agent1;
     Agent agent2;
 };
-    //TODO: test flag set back to true after returning false
     //TODO: test duplicate agents and agent equality
     //TODO: test multiple agents at one location
     //TODO: test multiple locations for one agent
