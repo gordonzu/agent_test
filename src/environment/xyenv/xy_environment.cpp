@@ -77,8 +77,11 @@ std::vector<Agent>& XYEnvironment::check_vector(const XYLocation& xy) {
         return itv->second;
     }
 
-    if(check_matrix(xy))
+    if(check_matrix(xy)) {
         agent_map.emplace_back(xy, std::vector<Agent>());
+    } else {
+        flag = true;
+    }
 
     binary_sort_map();
     return has_xy(xy)->second;

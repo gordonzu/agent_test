@@ -16,6 +16,7 @@ public:
 };
     //TODO: code method that increases matrix in the event of adding xy location with only one 
     // dimension larger than existing matrix
+    //TODO: test flag set back to true after returning false
     //TODO: test duplicate agents
     //TODO: test multiple agents at one location
     
