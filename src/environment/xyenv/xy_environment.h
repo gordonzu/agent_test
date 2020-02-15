@@ -12,8 +12,8 @@
 
 using Map = std::vector<std::pair<XYLocation, std::vector<Agent>>>;
 
-// TODO: How many functions can be private? How many free functions? How many const?
-// How many parameters can be const?
+// TODO: How many functions can be private? How many free functions? How many const? How many static?
+// How many parameters can be const? How many for loops and be STL loops?
 
 class XYEnvironment {
 public:
@@ -27,18 +27,20 @@ public:
     void add_agent(const Agent& obj, const XYLocation& xy);
     void check_object(const Agent& obj);
     std::vector<Agent>& check_vector(const XYLocation& xy);
-    void check_dimensions(const XYLocation& xy);
+    bool check_matrix(const XYLocation& xy);
+    void binary_sort_map();
+    void print_map();
 
 private:
     Map agent_map;
     Map::iterator itv;
     std::vector<Agent>::iterator its;
     std::vector<std::vector<Agent>> vector_cache;
-    unsigned width;
-    unsigned height;
-    static int vsize;
-    std::vector<std::vector<Agent>> a;
-    std::vector<std::vector<Agent>> aa;
+    static unsigned width;
+    static unsigned height;
+    bool flag{true};
+    //std::vector<std::vector<Agent>> a;
+    //std::vector<std::vector<Agent>> aa;
 };
 #endif
 
