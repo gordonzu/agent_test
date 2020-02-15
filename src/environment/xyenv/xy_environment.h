@@ -12,8 +12,12 @@
 
 using Map = std::vector<std::pair<XYLocation, std::vector<Agent>>>;
 
-// TODO: How many functions can be private? How many free functions? How many const? How many static?
+// TODO: 
+// How many functions can be private? How many free functions? How many const? How many static?
 // How many parameters can be const? How many for loops and be STL loops?
+// Non-base classes are to be made final
+// List all out parameters from functions... make wrapper objects containing a pointer to the value
+//
 
 class XYEnvironment {
 public:
