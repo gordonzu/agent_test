@@ -14,8 +14,8 @@ public:
     Agent agent1;
     Agent agent2;
 };
-    //TODO: test new insertion rows and columns beyond the existing matrix
-    //TODO: code method that increases matrix in the even of adding xy location beyond current size
+    //TODO: code method that increases matrix in the event of adding xy location with only one 
+    // dimension larger than existing matrix
     //TODO: test duplicate agents
     //TODO: test multiple agents at one location
     

@@ -88,20 +88,20 @@ bool XYEnvironment::check_matrix(const XYLocation& xy) {
     itv = std::prev(get_map().end());
 
     if (!(xy < itv->first)) {
-    flag = false;
+        flag = false;
         for (int i = width + 1; i <= xy.getx(); ++i) {
             for (int ii = 1; ii <= xy.gety(); ++ii) {
-                //std::cout << "First loop emplacing: " << i << ":" << ii << std::endl; 
                 agent_map.emplace_back(XYLocation{i,ii}, std::vector<Agent>());
             }
         }        
 
         for (int i = 1; i <= width; ++i) {
             for (int ii = (height + 1); ii <= xy.gety(); ++ii) {
-                //std::cout << "Second loop emplacing: " << i << ":" << ii << std::endl; 
                 agent_map.emplace_back(XYLocation{i,ii}, std::vector<Agent>());
             }
         }
+        width += xy.getx();
+        height += xy.gety();
     }
     return flag;
 }
