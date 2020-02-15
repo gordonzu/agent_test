@@ -34,6 +34,8 @@ public:
     bool check_matrix(const XYLocation& xy);
     void binary_sort_map();
     void print_map();
+    unsigned get_width();
+    unsigned get_height();
 
 private:
     Map agent_map;

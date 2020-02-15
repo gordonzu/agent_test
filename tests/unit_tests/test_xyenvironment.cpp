@@ -14,11 +14,10 @@ public:
     Agent agent1;
     Agent agent2;
 };
-    //TODO: code method that increases matrix in the event of adding xy location with only one 
-    // dimension larger than existing matrix
     //TODO: test flag set back to true after returning false
-    //TODO: test duplicate agents
+    //TODO: test duplicate agents and agent equality
     //TODO: test multiple agents at one location
+    //TODO: test multiple locations for one agent
     
 TEST_F(TestXYEnvironment, test_matrix_size) {
     ASSERT_EQ(env.matrix_size(), size_t(120));   
@@ -43,7 +42,7 @@ TEST_F(TestXYEnvironment, test_add_withinbounds) {
     ASSERT_EQ(env.inner_vector_size(xy), size_t(0));
     
     env.add_agent(a, xy);
-    ASSERT_EQ(env.inner_vector_size(xy), size_t(1));
+    EXPECT_EQ(env.inner_vector_size(xy), size_t(1));
 }
 
 TEST_F(TestXYEnvironment, test_add_both_dimensions_outofbounds) {
@@ -53,22 +52,37 @@ TEST_F(TestXYEnvironment, test_add_both_dimensions_outofbounds) {
     ASSERT_EQ(env.matrix_size(), size_t(120));   
  
     env.add_agent(a, xy);
-    ASSERT_EQ(env.inner_vector_size(xy), size_t(1));
-    ASSERT_EQ(env.matrix_size(), size_t(168));   
+    EXPECT_EQ(env.inner_vector_size(xy), size_t(1));
+    EXPECT_EQ(env.matrix_size(), size_t(168));   
+    ASSERT_EQ(env.get_width(), unsigned(12));  
+    ASSERT_EQ(env.get_height(), unsigned(14));  
 }
 
-TEST_F(TestXYEnvironment, test_add_one_dimension_outofbounds) {
+TEST_F(TestXYEnvironment, test_add_outofbounds_height) {
     Agent a;
-    XYLocation xy{12,9};
-
-    ASSERT_EQ(env.inner_vector_size(xy), size_t(0));
+    XYLocation xy{10,14};
+    EXPECT_EQ(env.inner_vector_size(xy), size_t(0));
     ASSERT_EQ(env.matrix_size(), size_t(120));   
 
+    env.add_agent(a, xy);
+    EXPECT_EQ(env.inner_vector_size(xy), size_t(1));
+    EXPECT_EQ(env.matrix_size(), size_t(140)); 
+    ASSERT_EQ(env.get_width(), unsigned(10));  
+    ASSERT_EQ(env.get_height(), unsigned(14));
 }
 
+TEST_F(TestXYEnvironment, test_add_outofbounds_width) {
+    Agent a;
+    XYLocation xy{12,12};
+    EXPECT_EQ(env.inner_vector_size(xy), size_t(0));
+    ASSERT_EQ(env.matrix_size(), size_t(120));   
 
-
-
+    env.add_agent(a, xy);
+    EXPECT_EQ(env.inner_vector_size(xy), size_t(1));
+    EXPECT_EQ(env.matrix_size(), size_t(144)); 
+    ASSERT_EQ(env.get_width(), unsigned(12));  
+    ASSERT_EQ(env.get_height(), unsigned(12));
+}
 
 
 

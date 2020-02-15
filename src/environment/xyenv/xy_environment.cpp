@@ -88,23 +88,40 @@ std::vector<Agent>& XYEnvironment::check_vector(const XYLocation& xy) {
 }
 
 bool XYEnvironment::check_matrix(const XYLocation& xy) {
+    unsigned new_width = 0;
+    unsigned new_height = 0;
+
     itv = std::prev(get_map().end());
 
-    if (!(xy < itv->first)) {
-        flag = false;
-        for (int i = width + 1; i <= xy.getx(); ++i) {
-            for (int ii = 1; ii <= xy.gety(); ++ii) {
-                agent_map.emplace_back(XYLocation{i,ii}, std::vector<Agent>());
-            }
-        }        
+    if (itv->first < xy) {
 
-        for (int i = 1; i <= width; ++i) {
-            for (int ii = (height + 1); ii <= xy.gety(); ++ii) {
-                agent_map.emplace_back(XYLocation{i,ii}, std::vector<Agent>());
+        flag = false;
+
+        if ((xy.getx() - itv->first.getx()) > 0)
+            new_width = xy.getx();
+
+        if (( xy.gety() - itv->first.gety()) > 0)
+            new_height = xy.gety();
+
+        // add new rows within existing columns 
+        if (new_width) {
+            for (int i = (width + 1); i <= new_width; ++i) {
+                for (int ii = 1; ii <= height; ++ii) {
+                    agent_map.emplace_back(XYLocation{i,ii}, std::vector<Agent>());
+                }
             }
+            width = new_width;
         }
-        width += xy.getx();
-        height += xy.gety();
+        
+        // extend new columns to all rows
+        if (new_height) {
+            for (int i = 1; i <= width; ++i) {
+                for (int ii = (height + 1); ii <= new_height; ++ii) {
+                    agent_map.emplace_back(XYLocation{i,ii}, std::vector<Agent>());
+                }
+            }
+            height = new_height;
+        }
     }
     return flag;
 }
@@ -114,8 +131,13 @@ void XYEnvironment::print_map() {
         std::cout << "Location: " << p.first << std::endl; 
 }
 
+unsigned XYEnvironment::get_width() {
+    return width;
+}
 
-    
+unsigned XYEnvironment::get_height() {
+    return height;
+}
 
 
 

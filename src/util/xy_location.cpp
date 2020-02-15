@@ -39,7 +39,15 @@ XYLocation& XYLocation::operator=(const XYLocation& rhs) {
 }
 
 bool XYLocation::operator<(const XYLocation& rhs) const {
-    return x_ < rhs.x_ || (!(rhs.x_ < x_) && y_ < rhs.y_);
+    //return x_ < rhs.x_ || (!(rhs.x_ < x_) && y_ < rhs.y_);
+
+    //std::cout << "rhs.x_: " << rhs.x_ << "  x_: " << x_ << std::endl;
+    //std::cout << "rhs.y_: " << rhs.y_ << "  y_: " << y_ << std::endl;
+    //std::cout << "rhs: " << rhs << std::endl;
+
+    if ((x_ < rhs.x_) || (y_ < rhs.y_))     
+        return true;
+    return false;
 } 
 
 bool XYLocation::operator==(const XYLocation& rhs) const  {
