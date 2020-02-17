@@ -1,28 +1,18 @@
-// gordon zuehlke 2/10/2020
-// Agent.h
-//
+// gordon zuehlke 2/16/20
 
 #ifndef AICPP_AGENT_H
 #define AICPP_AGENT_H
 
-#include <ostream>
-#include "util/xy_location.h"
-//#include "action.h"
-//#include "percept.h"
-//#include "agent_programs/agent_program.h"
+#include "environment/environment_object.h"
 
-class Agent {
+class Agent : public EnvironmentObject { 
 public:
-    Agent();
-    virtual ~Agent();
-    virtual bool is_wall() const;
-    size_t hash_it();
-    bool operator==(const Agent& x) const; 
-
-protected:
-    bool iswall{false};
-    size_t hashval{0};
-
+    virtual ~Agent() {}
+    virtual bool is_alive() = 0;
+    virtual void set_alive(bool a) = 0;
 };
-#endif //AICPP_AGENT_H
+#endif
+
+//Agent::~Agent() {}
+
 
