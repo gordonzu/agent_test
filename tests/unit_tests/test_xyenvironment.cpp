@@ -9,26 +9,26 @@ using namespace::testing;
 
 class TestXYEnvironment: public Test {
 public:
-    TestXYEnvironment() {}
+    TestXYEnvironment() {
+        agent1 = std::make_shared<MockAgent>();
+        wall1 = std::make_shared<Wall>();
+        env.add_to(agent1,loc); 
+    }
 
     XYEnvironment env{10, 12};
-    MockAgent agent1;
-    MockAgent agent2;
-    Wall wall;
+    XYLocation loc{3,4};
+    std::shared_ptr<EnvironmentObject> agent1;
+    std::shared_ptr<EnvironmentObject> wall1;
 };
-    //TODO: test duplicate agents and agent equality
-    //TODO: test multiple agents at one location
-    //TODO: test multiple locations for one agent
-    
-TEST_F(TestXYEnvironment, testAddObjects) {
-    //XYLocation xyloc{9,9};
-    //env.add_to(wall, xyloc);
-    //ASSERT_EQ(env.get_agents().size(), size_t(1));
-    //ASSERT_EQ(env.get_objects().size(), size_t(2));
 
-    //XYLocation xy{9,9};
-    //ASSERT_EQ(env.inner_vector_size(xy), size_t(1));
+
+TEST_F(TestXYEnvironment, testAddObjects) {
+    XYLocation xyloc{9,9};
+    env.add_to(wall1, xyloc);
+    ASSERT_EQ(env.object_total(xyloc), size_t(1));
 }
+
+/*
 
 TEST_F(TestXYEnvironment, test_matrix_size) {
     ASSERT_EQ(env.matrix_size(), size_t(120));   
@@ -85,6 +85,11 @@ TEST_F(TestXYEnvironment, test_add_outofbounds_width) {
     ASSERT_EQ(env.get_width(), unsigned(12));  
     ASSERT_EQ(env.get_height(), unsigned(12));
 }
+*/
+    //TODO: test duplicate agents and agent equality
+    //TODO: test multiple agents at one location
+    //TODO: test multiple locations for one agent
+ 
 
 
 
@@ -96,7 +101,56 @@ TEST_F(TestXYEnvironment, test_add_outofbounds_width) {
 
 
 
+/*################################################################################################*/ 
+/*void compare(MockAgent eo) {
+    std::vector<MockAgent> vec;
+    MockAgent mock2;
 
+    vec.push_back(eo);
+    auto it = vec.begin();
+    if (!(*it == mock2)) std::cout << "Not equal." << std::endl;    
+}
+  
+TEST_F(TestXYEnvironment, testAddObjects) {
+    MockAgent mock1;
+    compare(mock1);
+}
+
+void compare1(EnvironmentObject* eo) {
+    std::vector<EnvironmentObject*> vec;
+    EnvironmentObject* mock2 = new MockAgent();
+
+    vec.push_back(eo);
+    auto it = vec.begin();
+    if (!((**it) == *mock2)) std::cout << "Not equal." << std::endl;
+
+    delete mock2;
+    mock2 = 0;    
+}
+  
+TEST_F(TestXYEnvironment, testAddObjects1) {
+    EnvironmentObject* mock1 = new MockAgent();
+    compare1(mock1);
+
+    delete mock1;
+    mock1 = 0;
+}*/
+
+/*void compare2(std::shared_ptr<EnvironmentObject> eo) {
+    std::vector<std::shared_ptr<EnvironmentObject>> vec;
+    std::shared_ptr<EnvironmentObject> mock2 = std::make_shared<MockAgent>();
+
+    vec.push_back(eo);
+    auto it = vec.begin();
+    if (!(**it == *mock2)) std::cout << "Not equal." << std::endl;    
+}
+  
+TEST_F(TestXYEnvironment, testAddObjects2) {
+    std::shared_ptr<EnvironmentObject> mock1 = std::make_shared<MockAgent>();
+    compare2(mock1);
+}*/
+
+/*##############################################################################################*/
 
 
 

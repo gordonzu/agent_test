@@ -12,7 +12,3 @@ public:
     virtual void set_alive(bool a) = 0;
 };
 #endif
-
-//Agent::~Agent() {}
-
-

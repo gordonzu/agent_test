@@ -23,8 +23,14 @@ public:
         return iswall;
     }
 
-    bool operator==(const MockAgent& x) const {
-        return hashval == x.hashval; 
+    bool operator==(const EnvironmentObject& other) const {
+        if (!EnvironmentObject::operator==(other))
+            return false;
+
+        auto p = dynamic_cast<const MockAgent*>(&other);
+        if (!p) return false;
+
+        return hashval == p->hashval;
     }
 
     size_t hash_it() {

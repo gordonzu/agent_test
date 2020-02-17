@@ -17,7 +17,7 @@
 #include "agent/mock_agent.h"
 #include "util/xy_location.h"
 
-using Map = std::vector<std::pair<XYLocation, std::vector<MockAgent>>>;
+using Map = std::vector<std::pair<XYLocation, std::vector<std::shared_ptr<EnvironmentObject>>>>;
 
 class XYEnvironment {
 public:
@@ -31,11 +31,23 @@ public:
 
         for (int x = 1; x <= width; ++x) {
             for (int y = 1; y <= height; ++y) {
-                agent_map.emplace_back(XYLocation{x,y}, std::vector<MockAgent>());
+                agent_map.emplace_back(
+                    XYLocation{x,y}, std::vector<std::shared_ptr<EnvironmentObject>>());
             }
         }
         binary_sort_map();
     }
+
+    void add_to(const std::shared_ptr<EnvironmentObject> obj, const XYLocation& xy) {
+        check_object(obj);
+        check_map_for_location(xy).emplace_back(obj);
+    }
+
+    size_t object_total(const XYLocation& xy) {
+        return has_xy(xy)->second.size();
+    }
+
+private:
 
     void binary_sort_map() {
         std::sort(get_map().begin(),
@@ -49,15 +61,11 @@ public:
         return agent_map.size();
     }
 
-    size_t inner_vector_size(const XYLocation& xy) {
-        return has_xy(xy)->second.size();
-    }
-
     Map::iterator has_xy(const XYLocation& loc) {
         itv = std::find_if(
                 get_map().begin(),
                 get_map().end(),
-                [loc](std::pair<XYLocation, std::vector<MockAgent>>& mypair) {
+                [loc](std::pair<XYLocation, std::vector<std::shared_ptr<EnvironmentObject>>>& mypair) {
                     return (mypair.first == loc);
                 });
         return itv;
@@ -67,15 +75,10 @@ public:
         return agent_map;
     }
 
-    void add_to(const MockAgent& obj, const XYLocation& xy) {
-        check_object(obj);
-        check_vector(xy).emplace_back(obj);
-    }
-
-    void check_object(const MockAgent& obj) {
+    void check_object(const std::shared_ptr<EnvironmentObject> obj) {
         for (auto& x : agent_map) {  
             if (its = x.second.begin(); its != x.second.end()) {
-                if (*its == obj) {
+                if (**its == *obj) {
                     x.second.erase(its);
                     break;
                 }
@@ -84,13 +87,13 @@ public:
         }
     }
 
-    std::vector<MockAgent>& check_vector(const XYLocation& xy) {
+    std::vector<std::shared_ptr<EnvironmentObject>>& check_map_for_location(const XYLocation& xy) {
         if (has_xy(xy) != get_map().end()) {
             return itv->second;
         }
 
-        if(check_matrix(xy)) {
-            agent_map.emplace_back(xy, std::vector<MockAgent>());
+        if(check_matrix_dimensions(xy)) {
+            agent_map.emplace_back(xy, std::vector<std::shared_ptr<EnvironmentObject>>());
         } else {
             flag = true;
         }
@@ -99,7 +102,7 @@ public:
         return has_xy(xy)->second;
     }
 
-    bool check_matrix(const XYLocation& xy) {
+    bool check_matrix_dimensions(const XYLocation& xy) {
         itv = std::prev(get_map().end());
 
         if (itv->first < xy) {
@@ -130,7 +133,7 @@ public:
         // add new rows within existing columns 
         for (int i = (width + 1); i <= new_width; ++i) {
             for (int ii = 1; ii <= height; ++ii) {
-                agent_map.emplace_back(XYLocation{i,ii}, std::vector<MockAgent>());
+                agent_map.emplace_back(XYLocation{i,ii}, std::vector<std::shared_ptr<EnvironmentObject>>());
             }
         }
         width = new_width;
@@ -140,14 +143,15 @@ public:
         // extend new columns to all rows
         for (int i = 1; i <= width; ++i) {
             for (int ii = (height + 1); ii <= new_height; ++ii) {
-                agent_map.emplace_back(XYLocation{i,ii}, std::vector<MockAgent>());
+                agent_map.emplace_back(XYLocation{i,ii}, std::vector<std::shared_ptr<EnvironmentObject>>());
             }
         }
         height = new_height;
     }
 
+    // Change to better name
     void print_map() {
-        for (const std::pair<XYLocation, std::vector<MockAgent>>& p : agent_map)
+        for (const std::pair<XYLocation, std::vector<std::shared_ptr<EnvironmentObject>>>& p : agent_map)
             std::cout << "Location: " << p.first << std::endl; 
     }
 
@@ -159,11 +163,10 @@ public:
         return height;
     }
 
-private:
     Map agent_map;
     Map::iterator itv;
-    std::vector<MockAgent>::iterator its;
-    std::vector<std::vector<MockAgent>> vector_cache;
+    std::vector<std::shared_ptr<EnvironmentObject>>::iterator its;
+    std::vector<std::vector<std::shared_ptr<EnvironmentObject>>> vector_cache;
     static unsigned width;
     static unsigned height;
     bool flag{true};
@@ -187,9 +190,9 @@ unsigned XYEnvironment::height = 0;
     Map::iterator has_xy(const XYLocation& loc);
     Map& get_map();
     size_t inner_vector_size(const XYLocation& xy);
-    void add_agent(const MockAgent& obj, const XYLocation& xy);
-    void check_object(const MockAgent& obj);
-    std::vector<MockAgent>& check_vector(const XYLocation& xy);
+    void add_agent(const std::shared_ptr<EnvironmentObject>& obj, const XYLocation& xy);
+    void check_object(const std::shared_ptr<EnvironmentObject>& obj);
+    std::vector<std::shared_ptr<EnvironmentObject>>& check_vector(const XYLocation& xy);
     bool check_matrix(const XYLocation& xy);
     void binary_sort_map();
     void print_map();
