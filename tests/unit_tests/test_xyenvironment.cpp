@@ -12,27 +12,47 @@ public:
     TestXYEnvironment() {
         agent1 = std::make_shared<MockAgent>();
         wall1 = std::make_shared<Wall>();
-        env.add_to(agent1,loc); 
+        env.add_to(agent1, loc); 
     }
 
-    XYEnvironment env{10, 12};
+    XYEnvironment env{10,12};
     XYLocation loc{3,4};
     std::shared_ptr<EnvironmentObject> agent1;
     std::shared_ptr<EnvironmentObject> wall1;
 };
 
-
-TEST_F(TestXYEnvironment, testAddObjects) {
-    XYLocation xyloc{9,9};
-    env.add_to(wall1, xyloc);
-    ASSERT_EQ(env.object_total(xyloc), size_t(1));
-}
-
-/*
-
 TEST_F(TestXYEnvironment, test_matrix_size) {
-    ASSERT_EQ(env.matrix_size(), size_t(120));   
+    EXPECT_EQ(env.matrix_size(), size_t(120));   
 }
+
+TEST_F(TestXYEnvironment, testAddObject) {
+    EXPECT_EQ(env.object_total(loc), size_t(1));
+}
+
+TEST_F(TestXYEnvironment, testAddObject2) {
+    XYLocation yy{9,9};
+    env.add_to(wall1, yy);
+    EXPECT_EQ(env.object_total(yy), size_t(1));
+}
+
+TEST_F(TestXYEnvironment, testObjectIsUnique) {
+    XYLocation xy{5,6};
+    env.add_to(agent1, xy);
+    EXPECT_EQ(env.object_total(xy), size_t(1));
+    EXPECT_EQ(env.object_total(loc), size_t(0));
+}
+
+TEST_F(TestXYEnvironment, testGetCurrentLocation) {
+    XYLocation xy{3,4};
+    EXPECT_EQ(env.get_location(agent1), xy);
+
+    XYLocation xy2{12,5};
+    EXPECT_NE(env.get_location(agent1), xy2);
+}
+
+
+ 
+/*
 
 TEST_F(TestXYEnvironment, test_negative_matrix) {
     try {

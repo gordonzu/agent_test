@@ -17,7 +17,8 @@
 #include "agent/mock_agent.h"
 #include "util/xy_location.h"
 
-using Map = std::vector<std::pair<XYLocation, std::vector<std::shared_ptr<EnvironmentObject>>>>;
+using EnvVec = std::vector<std::shared_ptr<EnvironmentObject>>;
+using Map = std::vector<std::pair<XYLocation, EnvVec>>;
 
 class XYEnvironment {
 public:
@@ -32,10 +33,21 @@ public:
         for (int x = 1; x <= width; ++x) {
             for (int y = 1; y <= height; ++y) {
                 agent_map.emplace_back(
-                    XYLocation{x,y}, std::vector<std::shared_ptr<EnvironmentObject>>());
+                    XYLocation{x,y}, EnvVec());
             }
         }
         binary_sort_map();
+    }
+
+    XYLocation& get_location(const std::shared_ptr<EnvironmentObject> obj) {
+        for (auto& x : get_map()) {
+            if (std::find(x.second.begin(), 
+                          x.second.end(), obj) 
+                          != x.second.end()) { 
+                          return x.first;
+            }
+        }
+        return xyNull;
     }
 
     void add_to(const std::shared_ptr<EnvironmentObject> obj, const XYLocation& xy) {
@@ -45,6 +57,10 @@ public:
 
     size_t object_total(const XYLocation& xy) {
         return has_xy(xy)->second.size();
+    }
+
+    size_t matrix_size() {
+        return agent_map.size();
     }
 
 private:
@@ -57,15 +73,11 @@ private:
                   });  
     }
 
-    size_t matrix_size() {
-        return agent_map.size();
-    }
-
     Map::iterator has_xy(const XYLocation& loc) {
         itv = std::find_if(
                 get_map().begin(),
                 get_map().end(),
-                [loc](std::pair<XYLocation, std::vector<std::shared_ptr<EnvironmentObject>>>& mypair) {
+                [loc](std::pair<XYLocation, EnvVec>& mypair) {
                     return (mypair.first == loc);
                 });
         return itv;
@@ -87,13 +99,13 @@ private:
         }
     }
 
-    std::vector<std::shared_ptr<EnvironmentObject>>& check_map_for_location(const XYLocation& xy) {
+    EnvVec& check_map_for_location(const XYLocation& xy) {
         if (has_xy(xy) != get_map().end()) {
             return itv->second;
         }
 
         if(check_matrix_dimensions(xy)) {
-            agent_map.emplace_back(xy, std::vector<std::shared_ptr<EnvironmentObject>>());
+            agent_map.emplace_back(xy, EnvVec());
         } else {
             flag = true;
         }
@@ -133,7 +145,7 @@ private:
         // add new rows within existing columns 
         for (int i = (width + 1); i <= new_width; ++i) {
             for (int ii = 1; ii <= height; ++ii) {
-                agent_map.emplace_back(XYLocation{i,ii}, std::vector<std::shared_ptr<EnvironmentObject>>());
+                agent_map.emplace_back(XYLocation{i,ii}, EnvVec());
             }
         }
         width = new_width;
@@ -143,15 +155,14 @@ private:
         // extend new columns to all rows
         for (int i = 1; i <= width; ++i) {
             for (int ii = (height + 1); ii <= new_height; ++ii) {
-                agent_map.emplace_back(XYLocation{i,ii}, std::vector<std::shared_ptr<EnvironmentObject>>());
+                agent_map.emplace_back(XYLocation{i,ii}, EnvVec());
             }
         }
         height = new_height;
     }
 
-    // Change to better name
-    void print_map() {
-        for (const std::pair<XYLocation, std::vector<std::shared_ptr<EnvironmentObject>>>& p : agent_map)
+    void print_map_locations() {
+        for (const std::pair<XYLocation, EnvVec>& p : agent_map)
             std::cout << "Location: " << p.first << std::endl; 
     }
 
@@ -165,10 +176,10 @@ private:
 
     Map agent_map;
     Map::iterator itv;
-    std::vector<std::shared_ptr<EnvironmentObject>>::iterator its;
-    std::vector<std::vector<std::shared_ptr<EnvironmentObject>>> vector_cache;
+    EnvVec::iterator its;
     static unsigned width;
     static unsigned height;
+    XYLocation xyNull{0,0};
     bool flag{true};
 };
 #endif
@@ -192,7 +203,7 @@ unsigned XYEnvironment::height = 0;
     size_t inner_vector_size(const XYLocation& xy);
     void add_agent(const std::shared_ptr<EnvironmentObject>& obj, const XYLocation& xy);
     void check_object(const std::shared_ptr<EnvironmentObject>& obj);
-    std::vector<std::shared_ptr<EnvironmentObject>>& check_vector(const XYLocation& xy);
+    EnvVec& check_vector(const XYLocation& xy);
     bool check_matrix(const XYLocation& xy);
     void binary_sort_map();
     void print_map();
