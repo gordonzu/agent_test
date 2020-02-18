@@ -1,10 +1,12 @@
 // gordon zuehlke 2/11/20
 // class representation of a 2D matrix
 // TODO: 
-// How many functions can be private? How many free functions? How many const? How many static?
+// How many functions can be private? How many free functions? How many const? 
+// How many static?
 // How many parameters can be const? How many for loops can be STL loops?
 // Non-base classes are to be made final
-// List all out parameters from functions... make wrapper objects containing a pointer to the value
+// List all out parameters from functions... make wrapper objects containing a 
+// pointer to the value
 
 #ifndef XY_ENVIRONMENT_H
 #define XY_ENVIRONMENT_H
@@ -17,10 +19,11 @@
 #include "agent/mock_agent.h"
 #include "util/xy_location.h"
 
-using EnvVec = std::vector<std::shared_ptr<EnvironmentObject>>;
+using EnvPtr = std::shared_ptr<EnvironmentObj>;
+using EnvVec = std::vector<EnvPtr>;
 using Map = std::vector<std::pair<XYLocation, EnvVec>>;
 
-class XYEnvironment {
+class XYEnvironment /*: public Environment*/ {
 public:
 
     XYEnvironment(int w, int h) {
@@ -39,7 +42,7 @@ public:
         binary_sort_map();
     }
 
-    XYLocation& get_location(const std::shared_ptr<EnvironmentObject> obj) {
+    XYLocation& get_location(const EnvPtr obj) {
         for (auto& x : get_map()) {
             if (std::find(x.second.begin(), 
                           x.second.end(), obj) 
@@ -50,7 +53,7 @@ public:
         return xyNull;
     }
 
-    void add_to(const std::shared_ptr<EnvironmentObject> obj, const XYLocation& xy) {
+    void add_to(const EnvPtr obj, const XYLocation& xy) {
         check_object(obj);
         check_map_for_location(xy).emplace_back(obj);
     }
@@ -87,7 +90,7 @@ private:
         return agent_map;
     }
 
-    void check_object(const std::shared_ptr<EnvironmentObject> obj) {
+    void check_object(const EnvPtr obj) {
         for (auto& x : agent_map) {  
             if (its = x.second.begin(); its != x.second.end()) {
                 if (**its == *obj) {
@@ -201,8 +204,8 @@ unsigned XYEnvironment::height = 0;
     Map::iterator has_xy(const XYLocation& loc);
     Map& get_map();
     size_t inner_vector_size(const XYLocation& xy);
-    void add_agent(const std::shared_ptr<EnvironmentObject>& obj, const XYLocation& xy);
-    void check_object(const std::shared_ptr<EnvironmentObject>& obj);
+    void add_agent(const std::shared_ptr<EnvironmentObj>& obj, const XYLocation& xy);
+    void check_object(const std::shared_ptr<EnvironmentObj>& obj);
     EnvVec& check_vector(const XYLocation& xy);
     bool check_matrix(const XYLocation& xy);
     void binary_sort_map();

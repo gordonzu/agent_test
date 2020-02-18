@@ -6,7 +6,7 @@
 #include "environment/xyenv/wall.h"
 
 using namespace::testing;
-using EnvPtr = std::shared_ptr<EnvironmentObject>;
+using EnvPtr = std::shared_ptr<EnvironmentObj>;
 
 class TestXYEnvironment: public Test {
 public:

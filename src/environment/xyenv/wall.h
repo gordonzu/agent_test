@@ -3,9 +3,9 @@
 #ifndef AICPP_WALL_H
 #define AICPP_WALL_H
 
-#include "environment/environment_object.h"
+#include "environment/environment_obj.h"
 
-class Wall : public EnvironmentObject {
+class Wall : public EnvironmentObj {
 public:
     Wall() { 
         hashval = hash_it();
@@ -13,8 +13,8 @@ public:
 
     virtual ~Wall() {}
 
-    bool operator==(const EnvironmentObject& other) const {
-        if (!EnvironmentObject::operator==(other))
+    bool operator==(const EnvironmentObj& other) const {
+        if (!EnvironmentObj::operator==(other))
             return false;
 
         auto p = dynamic_cast<const Wall*>(&other);

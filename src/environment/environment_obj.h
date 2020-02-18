@@ -1,17 +1,17 @@
 // gordon zuehlke 2/16/20
 
-#ifndef AICPP_ENVIRONMENT_OBJECT_H
-#define AICPP_ENVIRONMENT_OBJECT_H
+#ifndef AICPP_ENVIRONMENT_OBJ_H
+#define AICPP_ENVIRONMENT_OBJ_H
 
 #include<typeinfo>
 #include<stddef.h>
 #include<iostream>
 
-class EnvironmentObject {
+class EnvironmentObj {
 public:
-    virtual ~EnvironmentObject() = 0;
+    virtual ~EnvironmentObj() = 0;
  
-    virtual bool operator==(const EnvironmentObject& other) const {
+    virtual bool operator==(const EnvironmentObj& other) const {
         if (typeid(*this) != typeid(other))
             return false;
 
