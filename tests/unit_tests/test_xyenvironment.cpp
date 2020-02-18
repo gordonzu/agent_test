@@ -93,6 +93,7 @@ TEST_F(TestXYEnvironment, test_add_outofbounds_width) {
     EXPECT_EQ(env.object_total(xy), size_t(1));
     EXPECT_EQ(env.matrix_size(), size_t(144));   
 }
+    //TODO: test Environment's agent and object vectors
     //TODO: test duplicate agents and agent equality
     //TODO: test multiple agents at one location
     //TODO: test multiple locations for one agent
