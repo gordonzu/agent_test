@@ -27,6 +27,7 @@ TEST_F(TestXYEnvironment, test_matrix_size) {
 }
 
 TEST_F(TestXYEnvironment, testAddObject) {
+    EXPECT_EQ(env.get_location(agent1), loc);
     EXPECT_EQ(env.objects_at_location(loc), size_t(1));
 }
 
@@ -36,6 +37,15 @@ TEST_F(TestXYEnvironment, testAddObject2) {
     EXPECT_EQ(env.objects_at_location(yy), size_t(1));
     EXPECT_EQ(env.get_num_objects(), size_t(2));
     EXPECT_EQ(env.get_num_agents(), size_t(1));
+}
+
+TEST_F(TestXYEnvironment, testAddObjectTwice) {
+    EXPECT_EQ(env.objects_at_location(loc), size_t(1));
+    XYLocation xy{5,5};
+    EnvPtr agent2 = std::make_shared<MockAgent>();
+    env.add_to(agent2, xy);
+    EXPECT_EQ(env.objects_at_location(xy), size_t(1));
+    EXPECT_EQ(env.get_location(agent2), xy);
 }
 
 TEST_F(TestXYEnvironment, testObjectIsUnique) {
