@@ -6,7 +6,7 @@
 class EnvironmentView {
 public:
     virtual ~EnvironmentView() {}        
-}
+};
 #endif
 
 

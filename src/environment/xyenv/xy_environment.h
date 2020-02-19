@@ -15,7 +15,8 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
-#include <cmath>                                       
+#include <cmath>                        
+#include "environment/environment.h"               
 #include "agent/mock_agent.h"
 #include "util/xy_location.h"
 
@@ -23,7 +24,7 @@ using EnvPtr = std::shared_ptr<EnvironmentObj>;
 using EnvVec = std::vector<EnvPtr>;
 using Map = std::vector<std::pair<XYLocation, EnvVec>>;
 
-class XYEnvironment /*: public Environment*/ {
+class XYEnvironment : public Environment {
 public:
 
     XYEnvironment(int w, int h) {
@@ -56,9 +57,12 @@ public:
     void add_to(const EnvPtr obj, const XYLocation& xy) {
         check_object(obj);
         check_map_for_location(xy).emplace_back(obj);
+        if (!obj->is_wall()) 
+            add_agent(obj);
+        add_environment_object(obj);
     }
 
-    size_t object_total(const XYLocation& xy) {
+    size_t objects_at_location(const XYLocation& xy) {
         return has_xy(xy)->second.size();
     }
 

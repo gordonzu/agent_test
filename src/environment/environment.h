@@ -1,5 +1,8 @@
 // gordon zuehlke 2/17/20
-/*
+
+#ifndef AICPP_ENVIRONMENT_H
+#define AICPP_ENVIRONMENT_H
+
 #include <vector>
 #include <memory>
 #include <iostream>
@@ -32,16 +35,16 @@ public:
             views.emplace_back(view);  
     }
 
-    ViewVec& get_views() {
-        return views;
+    size_t get_num_views() {
+        return views.size();
     }
 
-    ObjectVec& get_objects() {
-        return objects;
+    size_t get_num_objects() {
+        return objects.size();
     }
 
-    ObjectVec& get_agents() {
-        return agents;
+    size_t get_num_agents() {
+        return agents.size();
     }
 
 protected:
@@ -50,5 +53,5 @@ protected:
     EnvVec agents;
 };
 #endif
-*/
+
 

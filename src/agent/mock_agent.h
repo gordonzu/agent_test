@@ -19,7 +19,7 @@ public:
 
     virtual ~MockAgent() {}
 
-    bool is_wall() const {
+    virtual bool is_wall() const {
         return iswall;
     }
 

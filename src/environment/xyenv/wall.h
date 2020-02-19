@@ -13,6 +13,10 @@ public:
 
     virtual ~Wall() {}
 
+    virtual bool is_wall() const {
+        return iswall;
+    }
+
     bool operator==(const EnvironmentObj& other) const {
         if (!EnvironmentObj::operator==(other))
             return false;
@@ -26,10 +30,6 @@ public:
     size_t hash_it() {
         hashval = reinterpret_cast<uint64_t>(this);
         return hashval;
-    }
-
-    bool is_wall() const {
-        return iswall;
     }
 
 private:

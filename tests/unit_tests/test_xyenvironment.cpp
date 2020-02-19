@@ -27,20 +27,22 @@ TEST_F(TestXYEnvironment, test_matrix_size) {
 }
 
 TEST_F(TestXYEnvironment, testAddObject) {
-    EXPECT_EQ(env.object_total(loc), size_t(1));
+    EXPECT_EQ(env.objects_at_location(loc), size_t(1));
 }
 
 TEST_F(TestXYEnvironment, testAddObject2) {
     XYLocation yy{9,9};
     env.add_to(wall1, yy);
-    EXPECT_EQ(env.object_total(yy), size_t(1));
+    EXPECT_EQ(env.objects_at_location(yy), size_t(1));
+    EXPECT_EQ(env.get_num_objects(), size_t(2));
+    EXPECT_EQ(env.get_num_agents(), size_t(1));
 }
 
 TEST_F(TestXYEnvironment, testObjectIsUnique) {
     XYLocation xy{5,6};
     env.add_to(agent1, xy);
-    EXPECT_EQ(env.object_total(xy), size_t(1));
-    EXPECT_EQ(env.object_total(loc), size_t(0));
+    EXPECT_EQ(env.objects_at_location(xy), size_t(1));
+    EXPECT_EQ(env.objects_at_location(loc), size_t(0));
 }
 
 TEST_F(TestXYEnvironment, testGetCurrentLocation) {
@@ -67,14 +69,14 @@ TEST_F(TestXYEnvironment, test_add_withinbounds) {
     EnvPtr a = std::make_shared<MockAgent>();
     XYLocation xy{8,9};
     env.add_to(a, xy);
-    EXPECT_EQ(env.object_total(xy), size_t(1));
+    EXPECT_EQ(env.objects_at_location(xy), size_t(1));
 }
 
 TEST_F(TestXYEnvironment, test_add_both_dimensions_outofbounds) {
     EnvPtr a = std::make_shared<MockAgent>();
     XYLocation xy{12,14};
     env.add_to(a, xy);
-    EXPECT_EQ(env.object_total(xy), size_t(1));
+    EXPECT_EQ(env.objects_at_location(xy), size_t(1));
     EXPECT_EQ(env.matrix_size(), size_t(168));   
 }
 
@@ -82,7 +84,7 @@ TEST_F(TestXYEnvironment, test_add_outofbounds_height) {
     EnvPtr a = std::make_shared<MockAgent>();
     XYLocation xy{10,14};
     env.add_to(a, xy);
-    EXPECT_EQ(env.object_total(xy), size_t(1));
+    EXPECT_EQ(env.objects_at_location(xy), size_t(1));
     EXPECT_EQ(env.matrix_size(), size_t(140));   
 }
 
@@ -90,7 +92,7 @@ TEST_F(TestXYEnvironment, test_add_outofbounds_width) {
     EnvPtr a = std::make_shared<MockAgent>();
     XYLocation xy{12,12};
     env.add_to(a, xy);
-    EXPECT_EQ(env.object_total(xy), size_t(1));
+    EXPECT_EQ(env.objects_at_location(xy), size_t(1));
     EXPECT_EQ(env.matrix_size(), size_t(144));   
 }
     //TODO: test Environment's agent and object vectors
