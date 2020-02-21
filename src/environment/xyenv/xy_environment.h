@@ -26,7 +26,6 @@ using Map = std::vector<std::pair<XYLocation, EnvVec>>;
 
 class XYEnvironment : public Environment {
 public:
-
     XYEnvironment(int w, int h) {
         if (w < 1 || h < 1)
             throw std::runtime_error("Invalid parameter values");
@@ -70,14 +69,39 @@ public:
         return agent_map.size();
     }
 
-private:
+    void move_to_absolute_location(const EnvPtr obj, const XYLocation& xy) {
+        add_to(obj, xy);
+    }
 
+    void move_object(const EnvPtr obj, const XYLocation::Direction& dir) {
+        XYLocation tmp = get_location(obj);
+        if (tmp != xyNull) {
+            tmp = tmp.location_at(dir);
+            if (!(is_blocked(tmp))) {
+                add_to(obj, tmp);
+            }
+        }
+    }
+
+    bool blocked(const XYLocation& xy) {
+        return is_blocked(xy);
+    }
+
+private:
     void binary_sort_map() {
         std::sort(get_map().begin(),
                   get_map().end(),
                   [](auto& left, auto& right) {
                       return left.first < right.first;
                   });  
+    }
+
+    bool is_blocked(const XYLocation& xy) {
+        for (auto& eo : check_map_for_location(xy)) {
+            if (eo->is_wall()) 
+                return true;
+        }
+        return false;
     }
 
     Map::iterator has_xy(const XYLocation& loc) {

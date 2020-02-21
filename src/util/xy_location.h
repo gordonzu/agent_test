@@ -6,6 +6,9 @@
 #include <iostream>
 #include <memory>
 
+//TODO: why do the direction methods return a copy of a local stack object?
+//TODO: change them to return a unique pointer
+
 class XYLocation {
 public:
     XYLocation();
