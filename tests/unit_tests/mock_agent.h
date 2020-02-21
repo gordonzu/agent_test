@@ -4,11 +4,7 @@
 #define AICPP_MOCKAGENT_H
 
 #include <ostream>
-#include "agent.h"
-#include "util/xy_location.h"
-//#include "action.h"
-//#include "percept.h"
-//#include "agent_programs/agent_program.h"
+#include "agent/agent.h"
 
 class MockAgent : public Agent {
 public:

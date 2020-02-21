@@ -17,7 +17,7 @@
 #include <algorithm>
 #include <cmath>                        
 #include "environment/environment.h"               
-#include "agent/mock_agent.h"
+//#include "agent/mock_agent.h"
 #include "util/xy_location.h"
 
 using EnvPtr = std::shared_ptr<EnvironmentObj>;
@@ -208,16 +208,18 @@ private:
     Map agent_map;
     Map::iterator itv;
     EnvVec::iterator its;
-    static unsigned width;
-    static unsigned height;
+    //static unsigned width;
+    //static unsigned height;
+    unsigned width{0};
+    unsigned height{0}; 
     XYLocation xyNull{0,0};
     bool flag{true};
 };
+
+//unsigned XYEnvironment::width = 0;
+//unsigned XYEnvironment::height = 0;
+
 #endif
-
-unsigned XYEnvironment::width = 0;
-unsigned XYEnvironment::height = 0;
-
 
 
 

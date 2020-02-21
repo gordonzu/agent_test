@@ -4,6 +4,7 @@
 #include "gtest/gtest.h"
 #include "environment/xyenv/xy_environment.h"
 #include "environment/xyenv/wall.h"
+#include "mock_agent.h"
 
 using namespace::testing;
 using EnvPtr = std::shared_ptr<EnvironmentObj>;
@@ -22,9 +23,6 @@ public:
     EnvPtr wall1;
 };
 
-TEST_F(TestXYEnvironment, test_matrix_size) {
-    EXPECT_EQ(env.matrix_size(), size_t(120));   
-}
 
 TEST_F(TestXYEnvironment, testAddObject) {
     EXPECT_EQ(env.get_location(agent1), loc);
@@ -45,10 +43,23 @@ TEST_F(TestXYEnvironment, test_add_object_twice) {
     env.add_to(agent1, xy);
     EXPECT_EQ(env.objects_at_location(xy), size_t(1));
     EXPECT_EQ(env.get_location(agent1), xy);
-    //EXPECT_EQ(env.get_location(agent1), loc);
 }
 
-TEST_F(TestXYEnvironment, test_object_is_unique) {
+TEST_F(TestXYEnvironment, test_objects_are_unique) {
+    EnvPtr agent2 = std::make_shared<MockAgent>();
+    EXPECT_NE(agent1, agent2);
+}
+
+TEST_F(TestXYEnvironment, test_add_two_objects_one_location) {
+    XYLocation xy{9,8};
+    env.move_to_absolute_location(agent1,xy);
+    EXPECT_EQ(env.objects_at_location(xy), size_t(1));
+    EnvPtr agent2 = std::make_shared<MockAgent>();
+    env.move_to_absolute_location(agent2,xy);
+    EXPECT_EQ(env.objects_at_location(xy), size_t(2));
+}
+
+TEST_F(TestXYEnvironment, change_object_location) {
     XYLocation xy{5,6};
     env.add_to(agent1, xy);
     EXPECT_EQ(env.objects_at_location(xy), size_t(1));
