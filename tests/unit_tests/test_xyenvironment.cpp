@@ -133,57 +133,94 @@ TEST_F(TestXYEnvironment, test_move_with_blocking_walls) {
     EXPECT_EQ(env.get_location(agent1), xyEnd);
 }
 
-TEST_F(TestXYEnvironment, test_negative_matrix) {
-    try {
-        XYEnvironment xyFail2{3,-6};
-        FAIL() << "Expected std::runtime_error";
-    }
-    catch(const std::runtime_error& err) {
-        EXPECT_EQ(err.what(), std::string("Invalid parameter values"));
-    }
-    catch(...) {
-        FAIL() << "Expected std::runetime_error";
-    }
+TEST_F(TestXYEnvironment, test_get_objects_near) {
+    XYLocation loc{5,5};
+    XYLocation loc2{7,4};
+    XYLocation loc3{5,7};
+    XYLocation loc4{3,10};
+    XYLocation loc5{3,11};
+
+    env.add_to(agent1, loc);
+
+    EnvPtr b = std::make_shared<MockAgent>();
+    EnvPtr c = std::make_shared<MockAgent>();
+    EnvPtr w = std::make_shared<MockAgent>();
+
+    env.add_to(b, loc2);
+    env.add_to(c, loc3);
+    env.add_to(w, loc4);
+
+    std::vector<EnvPtr> avec = env.get_objects_near(agent1, 3);
+    ASSERT_EQ(avec.size(), size_t(2));
+
+    //std::vector<EnvironmentObject> bvec = env.get_objects_near(b, 3);
+    //ASSERT_EQ(bvec.size(), size_t(1));
+
+    //env.move_object(b, XYLocation::Direction::SOUTH);
+
+    //bvec = env.get_objects_near(b, 3);
+    //ASSERT_EQ(bvec.size(), size_t(2));
+
+    //env.add_to(c, loc5);
+    //std::vector<EnvironmentObject> cvec = env.get_objects_near(c, 4);
+    //ASSERT_EQ(cvec.size(), size_t(1));
+
+
+
+/*
+    XYLocation loc{5,5};
+    XYLocation loc2{7,4};
+    XYLocation loc3{5,7};
+    XYLocation loc4{3,10};
+    XYLocation loc5{3,11};
+    EnvPtr agent2 = std::make_shared<MockAgent>();
+    EnvPtr agent3 = std::make_shared<MockAgent>();
+    
+    env.add_to(agent1, loc);
+    env.add_to(agent2, loc2);
+
+    EXPECT_EQ(env.get_objects_near(agent1, 3).size(), size_t(2));
+    EXPECT_EQ(env.get_objects_near(agent2, 3).size(), size_t(1));
+
+    env.move_object(agent2, XYLocation::Direction::SOUTH);
+    EXPECT_EQ(env.get_objects_near(agent2, 3).size(), size_t(2));
+    
+    env.add_to(agent3, loc5); 
+    EXPECT_EQ(env.get_objects_near(agent3, 4).size(), size_t(1));*/
 }
 
-TEST_F(TestXYEnvironment, test_add_withinbounds) { 
-    EnvPtr a = std::make_shared<MockAgent>();
-    XYLocation xy{8,9};
-    env.add_to(a, xy);
-    EXPECT_EQ(env.objects_at_location(xy), size_t(1));
-}
 
-TEST_F(TestXYEnvironment, test_add_both_dimensions_outofbounds) {
-    EnvPtr a = std::make_shared<MockAgent>();
-    XYLocation xy{12,14};
-    env.add_to(a, xy);
-    EXPECT_EQ(env.objects_at_location(xy), size_t(1));
-    EXPECT_EQ(env.matrix_size(), size_t(168));   
-}
 
-TEST_F(TestXYEnvironment, test_add_outofbounds_height) {
-    EnvPtr a = std::make_shared<MockAgent>();
-    XYLocation xy{10,14};
-    env.add_to(a, xy);
-    EXPECT_EQ(env.objects_at_location(xy), size_t(1));
-    EXPECT_EQ(env.matrix_size(), size_t(140));   
-}
 
-TEST_F(TestXYEnvironment, test_add_outofbounds_width) {
-    EnvPtr a = std::make_shared<MockAgent>();
-    XYLocation xy{12,12};
-    env.add_to(a, xy);
-    EXPECT_EQ(env.objects_at_location(xy), size_t(1));
-    EXPECT_EQ(env.matrix_size(), size_t(144));   
-}
 
-TEST_F(TestXYEnvironment, test_state_of_object_move) {
-    EXPECT_EQ(env.get_location(agent1), loc);
 
-}
-    //TODO: test Environment's agent and object vectors
-    //TODO: test duplicate agents and agent equality
-    //TODO: test multiple agents at one location
-    //TODO: test multiple locations for one agent
- 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

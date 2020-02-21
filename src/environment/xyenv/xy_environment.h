@@ -87,6 +87,23 @@ public:
         return is_blocked(xy);
     }
 
+    EnvVec& get_objects_near(const EnvPtr obj, unsigned rad) {
+        nearObjs.clear();
+        auto xy = get_location(obj);
+
+        for (auto& v : get_map()) {
+            if( in_radius(rad, xy, v.first)) {
+                nearObjs.insert(nearObjs.end(), 
+                                v.second.begin(), 
+                                v.second.end());
+            }
+        }
+
+        auto it = std::find(nearObjs.begin(), nearObjs.end(), obj);
+        if (it != nearObjs.end()) nearObjs.erase(it);
+        return nearObjs;
+    }
+
 private:
     void binary_sort_map() {
         std::sort(get_map().begin(),
@@ -102,6 +119,12 @@ private:
                 return true;
         }
         return false;
+    }
+
+    bool in_radius(unsigned rad, const XYLocation& a, const XYLocation& b) {
+        int xdiff = a.getx() - b.getx();
+        int ydiff = a.gety() - b.gety();
+        return std::sqrt((xdiff * xdiff) + (ydiff * ydiff)) <= rad;
     }
 
     Map::iterator has_xy(const XYLocation& loc) {
@@ -208,6 +231,7 @@ private:
     Map agent_map;
     Map::iterator itv;
     EnvVec::iterator its;
+    EnvVec nearObjs;
     //static unsigned width;
     //static unsigned height;
     unsigned width{0};
