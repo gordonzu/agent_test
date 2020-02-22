@@ -17,8 +17,9 @@
 #include <algorithm>
 #include <cmath>                        
 #include "environment/environment.h"               
-//#include "agent/mock_agent.h"
 #include "util/xy_location.h"
+
+class Wall;
 
 using EnvPtr = std::shared_ptr<EnvironmentObj>;
 using EnvVec = std::vector<EnvPtr>;
@@ -102,6 +103,31 @@ public:
         auto it = std::find(nearObjs.begin(), nearObjs.end(), obj);
         if (it != nearObjs.end()) nearObjs.erase(it);
         return nearObjs;
+    }
+
+    void make_perimeter(int x) {
+        EnvVec walls;
+        std::vector<XYLocation> locations;
+
+        for (int i = 1; i <=x; ++i) {
+            walls.emplace_back(std::make_unique<Wall>());
+            locations.emplace_back(XYLocation{1,i});
+            walls.emplace_back(std::make_unique<Wall>());
+            locations.emplace_back(XYLocation{i,1});
+        }
+
+        for (int i = 1; i <=x; ++i) {
+            walls.emplace_back(std::make_unique<Wall>());
+            locations.emplace_back(XYLocation{i,x});
+            walls.emplace_back(std::make_unique<Wall>());
+            locations.emplace_back(XYLocation{x,i});
+        }
+
+        int i = 0;
+        for (auto& w : walls) {
+            add_to(walls[i], locations[i]);
+            ++i;
+        } 
     }
 
 private:
@@ -232,42 +258,10 @@ private:
     Map::iterator itv;
     EnvVec::iterator its;
     EnvVec nearObjs;
-    //static unsigned width;
-    //static unsigned height;
     unsigned width{0};
     unsigned height{0}; 
     XYLocation xyNull{0,0};
     bool flag{true};
 };
-
-//unsigned XYEnvironment::width = 0;
-//unsigned XYEnvironment::height = 0;
-
 #endif
-
-
-
-
-
-
-/*
-    XYEnvironment() = delete;
-    XYEnvironment(int w, int h);
-    virtual ~XYEnvironment() = default;
-    size_t matrix_size();
-    Map::iterator has_xy(const XYLocation& loc);
-    Map& get_map();
-    size_t inner_vector_size(const XYLocation& xy);
-    void add_agent(const std::shared_ptr<EnvironmentObj>& obj, const XYLocation& xy);
-    void check_object(const std::shared_ptr<EnvironmentObj>& obj);
-    EnvVec& check_vector(const XYLocation& xy);
-    bool check_matrix(const XYLocation& xy);
-    void binary_sort_map();
-    void print_map();
-    unsigned get_width();
-    unsigned get_height();
-    void grow_matrix(const XYLocation& xy);
-    void add_rows(unsigned new_width);
-    void add_columns(unsigned new_height);
-*/
 

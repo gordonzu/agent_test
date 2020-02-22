@@ -23,7 +23,6 @@ public:
     EnvPtr wall1;
 };
 
-
 TEST_F(TestXYEnvironment, testAddObject) {
     EXPECT_EQ(env.get_location(agent1), loc);
     EXPECT_EQ(env.objects_at_location(loc), size_t(1));
@@ -159,7 +158,22 @@ TEST_F(TestXYEnvironment, test_get_objects_near) {
     EXPECT_EQ(env.get_objects_near(c, 4).size(), size_t(1));
 }
 
+TEST_F(TestXYEnvironment, test_make_perimeter) {
+    env.make_perimeter(5);
 
+    EXPECT_TRUE(env.blocked(XYLocation{1,1}));
+    EXPECT_TRUE(env.blocked(XYLocation{1,2}));
+    EXPECT_TRUE(env.blocked(XYLocation{1,5}));
+    EXPECT_TRUE(env.blocked(XYLocation{2,1}));
+    EXPECT_TRUE(env.blocked(XYLocation{5,2}));
+    EXPECT_TRUE(env.blocked(XYLocation{5,5}));
+    EXPECT_TRUE(env.blocked(XYLocation{4,1}));
+
+    EXPECT_FALSE(env.blocked(XYLocation{7,5}));
+    EXPECT_FALSE(env.blocked(XYLocation{2,8}));
+    EXPECT_FALSE(env.blocked(XYLocation{4,4}));
+    EXPECT_FALSE(env.blocked(XYLocation{3,2}));
+}
 
 
 
