@@ -139,54 +139,24 @@ TEST_F(TestXYEnvironment, test_get_objects_near) {
     XYLocation loc3{5,7};
     XYLocation loc4{3,10};
     XYLocation loc5{3,11};
-
-    env.add_to(agent1, loc);
-
+    
     EnvPtr b = std::make_shared<MockAgent>();
     EnvPtr c = std::make_shared<MockAgent>();
     EnvPtr w = std::make_shared<MockAgent>();
 
+    env.add_to(agent1, loc);
     env.add_to(b, loc2);
     env.add_to(c, loc3);
     env.add_to(w, loc4);
 
-    std::vector<EnvPtr> avec = env.get_objects_near(agent1, 3);
-    ASSERT_EQ(avec.size(), size_t(2));
-
-    //std::vector<EnvironmentObject> bvec = env.get_objects_near(b, 3);
-    //ASSERT_EQ(bvec.size(), size_t(1));
-
-    //env.move_object(b, XYLocation::Direction::SOUTH);
-
-    //bvec = env.get_objects_near(b, 3);
-    //ASSERT_EQ(bvec.size(), size_t(2));
-
-    //env.add_to(c, loc5);
-    //std::vector<EnvironmentObject> cvec = env.get_objects_near(c, 4);
-    //ASSERT_EQ(cvec.size(), size_t(1));
-
-
-
-/*
-    XYLocation loc{5,5};
-    XYLocation loc2{7,4};
-    XYLocation loc3{5,7};
-    XYLocation loc4{3,10};
-    XYLocation loc5{3,11};
-    EnvPtr agent2 = std::make_shared<MockAgent>();
-    EnvPtr agent3 = std::make_shared<MockAgent>();
-    
-    env.add_to(agent1, loc);
-    env.add_to(agent2, loc2);
-
     EXPECT_EQ(env.get_objects_near(agent1, 3).size(), size_t(2));
-    EXPECT_EQ(env.get_objects_near(agent2, 3).size(), size_t(1));
+    EXPECT_EQ(env.get_objects_near(b, 3).size(), size_t(1));
 
-    env.move_object(agent2, XYLocation::Direction::SOUTH);
-    EXPECT_EQ(env.get_objects_near(agent2, 3).size(), size_t(2));
-    
-    env.add_to(agent3, loc5); 
-    EXPECT_EQ(env.get_objects_near(agent3, 4).size(), size_t(1));*/
+    env.move_object(b, XYLocation::Direction::SOUTH);
+    EXPECT_EQ(env.get_objects_near(b, 3).size(), size_t(2));
+
+    env.add_to(c, loc5);
+    EXPECT_EQ(env.get_objects_near(c, 4).size(), size_t(1));
 }
 
 
